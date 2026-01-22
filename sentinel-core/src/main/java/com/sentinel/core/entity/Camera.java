@@ -23,12 +23,22 @@ public class Camera {
 
     private String location;
 
-    private String status; // ONLINE, OFFLINE
+    private String status;
 
-    // Tạm thời để String để tránh lỗi thư viện JSON phức tạp lúc đầu.
-    // Sau này sẽ dùng thư viện để parse JSON sau.
-    @Column(name = "ai_config", columnDefinition = "jsonb")
-    private String aiConfig;
+    @Column(name = "ai_models", columnDefinition = "jsonb")
+    private String aiModels;
+
+    @Column(name = "confidence_threshold")
+    private Double confidenceThreshold;
+
+    @Column(name = "min_event_duration")
+    private Integer minEventDuration;
+
+    @Column(name = "zone_coordinates", columnDefinition = "jsonb")
+    private String zoneCoordinates;
+
+    @Column(name = "last_heartbeat")
+    private LocalDateTime lastHeartbeat;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

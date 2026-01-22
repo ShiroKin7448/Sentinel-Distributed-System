@@ -24,11 +24,17 @@ public class AiEvent {
     private StoredFile snapshotFile;
 
     @Column(name = "event_type", nullable = false)
-    private String eventType; // FIRE, INTRUSION
+    private String eventType;
 
-    private String severity; // INFO, WARNING
+    private String severity;
 
-    private Double confidence;
+    private Double confidence; // 0.0 - 1.0
+
+    @Column(columnDefinition = "jsonb")
+    private String bbox;
+
+    @Column(columnDefinition = "jsonb")
+    private String metadata;
 
     private String message;
 

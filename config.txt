@@ -1,0 +1,15 @@
+Rabbit
+Username: guest
+pass: guest
+host: localhost
+AMQP port: 5672
+virtual host: /
+Redis
+Host: localhost
+Port: 6379
+Password: sentinel_redis_pass
+MinIO
+Endpoint: http://localhost:9000 (Lưu ý: Code dùng port 9000, Web dùng 9001).
+Access Key: minioadmin
+Secret Key: minioadmin
+Bucket Name: sentinel-storage

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-@Data // Lombok tự sinh Getter/Setter
+@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,7 +24,13 @@ public class User {
     private String email;
 
     @Column(columnDefinition = "VARCHAR(20) DEFAULT 'OPERATOR'")
-    private String role; // ADMIN, OPERATOR
+    private String role;
+
+    @Column(name = "is_active")
+    private Boolean isActive = true;
+
+    @Column(name = "avatar_url", columnDefinition = "TEXT")
+    private String avatarUrl;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

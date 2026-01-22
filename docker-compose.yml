@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # 1. MESSAGE QUEUE (Đã làm)
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: sentinel_rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"   # Port App kết nối (AMQP)
+      - "15672:15672" # Port Dashboard quản lý
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  # 2. CACHE & KEY-VALUE STORE (Redis)
+  redis:
+    image: redis:7-alpine
+    container_name: sentinel_redis
+    restart: always
+    ports:
+      - "6379:6379" # Port mặc định của Redis
+    # Lệnh này để đặt password cho Redis (An toàn hơn để trống)
+    command: redis-server --requirepass sentinel_redis_pass
+    volumes:
+      - redis_data:/data
+
+  # 3. OBJECT STORAGE (MinIO - Giả lập S3)
+  minio:
+    image: minio/minio
+    container_name: sentinel_minio
+    restart: always
+    ports:
+      - "9000:9000" # Port API (Code Java/Python gọi vào đây để upload/download)
+      - "9001:9001" # Port Console (Bạn vào đây để xem file bằng trình duyệt)
+    environment:
+      MINIO_ROOT_USER: minioadmin     # Tương đương Access Key
+      MINIO_ROOT_PASSWORD: minioadmin # Tương đương Secret Key
+    # Lệnh bắt buộc để MinIO chạy chế độ server và mở cổng Console
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+
+  # 4. DATABASE (PostgreSQL - Nên chuyển vào Docker luôn cho đồng bộ)
+  postgres:
+    image: postgres:15-alpine
+    container_name: sentinel_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password_cua_ban # <--- Hãy đổi pass giống máy bạn
+      POSTGRES_DB: sentinel_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+# Nơi lưu trữ dữ liệu bền vững (tắt Docker không bị mất)
+volumes:
+  rabbitmq_data:
+  redis_data:
+  minio_data:
+  postgres_data:
