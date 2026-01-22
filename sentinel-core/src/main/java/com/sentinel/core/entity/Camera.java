@@ -3,7 +3,8 @@ package com.sentinel.core.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ public class Camera {
     private String status;
 
     @Column(name = "ai_models", columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private String aiModels;
 
     @Column(name = "confidence_threshold")
@@ -35,6 +37,7 @@ public class Camera {
     private Integer minEventDuration;
 
     @Column(name = "zone_coordinates", columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private String zoneCoordinates;
 
     @Column(name = "last_heartbeat")
