@@ -1,0 +1,5 @@
+opencv-python-headless==4.9.0.80  
+pika==1.3.2                       # Kết nối RabbitMQ
+python-dotenv==1.0.1              # Đọc biến môi trường
+numpy                             # Xử lý ma trận ảnh
+requests                          # Gọi API (để lấy config camera từ Core)
